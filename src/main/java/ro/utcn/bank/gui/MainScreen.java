@@ -178,6 +178,7 @@ public class MainScreen {
 		showAccounts.setEnabled(enable);
 
 		retreatMoney.setEnabled(enable);
+		addMoney.setEnabled(enable);
 	}
 	
 	public void showMessage(String message){

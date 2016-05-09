@@ -72,7 +72,7 @@ public class Bank implements IBank, AppInterfaceButtonEvents {
 		assert person != null : "Person should not be null";
 		assert assocAccount != null : "Account should not be null";
 		if (!isWellFormed()) {
-			mainScreen.showMessage("Bank has been corupted!");
+			mainScreen.showMessage("Bank has been corupted1!");
 			return;
 		}
 		int preSizeAccount, postSizeAccount;
@@ -87,10 +87,11 @@ public class Bank implements IBank, AppInterfaceButtonEvents {
 			hashSetAccounts.add(assocAccount);
 			entries.put(person, hashSetAccounts);
 			postSizeAccount = entries.get(person).size();
+			numberOfClients++;
 		}
 		numberOfAccounts = this.getAccountsFromEntries().size();
 		if (!isWellFormed()) {
-			mainScreen.showMessage("Bank has been corupted!");
+			mainScreen.showMessage("Bank has been corupted2!");
 			return;
 		}
 		assert preSizeAccount + 1 == postSizeAccount : "preSize and postSize of account are not good";
@@ -99,7 +100,7 @@ public class Bank implements IBank, AppInterfaceButtonEvents {
 	public void addPersonIntoBank(Person person) {
 		assert person != null : "Person should not be null";
 		if (!isWellFormed()) {
-			mainScreen.showMessage("Bank has been corupted1!");
+			mainScreen.showMessage("Bank has been corupted3!");
 			return;
 		}
 		int preSizeEntries, postSizeEntries;
@@ -114,7 +115,7 @@ public class Bank implements IBank, AppInterfaceButtonEvents {
 			numberOfClients++;
 		}
 		if (!isWellFormed()) {
-			mainScreen.showMessage("Bank has been corupted2!");
+			mainScreen.showMessage("Bank has been corupted4!");
 			return;
 		}
 		assert preSizeEntries + 1 == postSizeEntries : "preSize and postSize of entries are not good";
@@ -123,7 +124,7 @@ public class Bank implements IBank, AppInterfaceButtonEvents {
 	public void depositMoney(double sum, int accId, Person person) {
 		assert person != null : "Person should not be null";
 		if (!isWellFormed()) {
-			mainScreen.showMessage("Bank has been corupted!");
+			mainScreen.showMessage("Bank has been corupted5!");
 			return;
 		}
 		double preAccIdSum = 0;
@@ -142,7 +143,7 @@ public class Bank implements IBank, AppInterfaceButtonEvents {
 			}
 		}
 		if (!isWellFormed()) {
-			mainScreen.showMessage("Bank has been corupted!");
+			mainScreen.showMessage("Bank has been corupted6!");
 			return;
 		}
 		if (sum > 0) {
@@ -421,9 +422,11 @@ public class Bank implements IBank, AppInterfaceButtonEvents {
 	private boolean isWellFormed(){
 		boolean result = true;
 		if (numberOfClients != this.getClientsFromEntries().size()){
+			System.out.println("numberOfClients  is not good: " +  numberOfClients + " "+ this.getClientsFromEntries().size()+ "\n");
 			result = false;
 		}
 		if (numberOfAccounts != this.getAccountsFromEntries().size()){
+			System.out.println("NumberOfAccount is not good: " +  numberOfAccounts  + " "+ this.getAccountsFromEntries().size() + "\n");
 			result = false;
 		}
 		return result;

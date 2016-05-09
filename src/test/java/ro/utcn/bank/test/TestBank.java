@@ -17,21 +17,24 @@ public class TestBank {
 	@Before
 	public void setUp() {
 
-		sBank = Bank.getInstance();
-		person1 = new Person(1, "Vlad Bonta", 20);
-		person2 = new Person(2, "Michael Bortan", 43);
-		person3 = new Person(3, "Mihaela Barita", 101);
 		
-		account1 = new SavingAccount(1, 0);
-		account2 = new SpendingAccount(2, 0);
 		
 	}
 	
 	@Test
 	public void testConnectionAccountPerson() {
+		sBank = Bank.getInstance();
+		person1 = new Person(1, "Vlad Bonta", 20);
+		person2 = new Person(2, "Michael Bortan", 43);
+		person3 = new Person(3, "Mihaela Barita", 101);
+		account1 = new SavingAccount(1, 0);
+		account2 = new SpendingAccount(2, 0);
+		
 		sBank.addAccForPerson(person1, account1);
 		sBank.addAccForPerson(person1, account2);
 		sBank.addAccForPerson(person2, account2);
+
+		sBank.depositMoney(111, 1, person1);
 		sBank.addPersonIntoBank(person3);
 		sBank.printAllAccounts();
 	}
