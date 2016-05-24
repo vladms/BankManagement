@@ -1,4 +1,4 @@
-package ro.utcn.bank.gui;
+package ro.utcn.dictionary.gui;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -12,30 +12,29 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class DeleteAccountScreen {
+public class SearchWordScreen {
 	private JFrame mainFrame;
 	private JPanel controlPanel;
 
-	private JTextField accountIdTextField;
-	private JTextField clientIdTextField;
+	private JTextField wordTextField;
 
 	private JButton cancelButton;
-	private JButton deleteButton;
+	private JButton searchButton;
 
 	private AppInterfaceButtonEvents buttonEventHandler;
 
-	public DeleteAccountScreen(AppInterfaceButtonEvents buttonEventsHandler) {
+	public SearchWordScreen(AppInterfaceButtonEvents buttonEventsHandler) {
 		this.buttonEventHandler = buttonEventsHandler;
 
 	}
 
 	public void prepareComponents() {
 		prepareGUI();
-		prepareClientSelection();
+		prepareWordSelection();
 	}
 
 	private void prepareGUI() {
-		mainFrame = new JFrame("Delete client");
+		mainFrame = new JFrame("Search word in dictionary");
 		mainFrame.setSize(500, 400);
 		mainFrame.setLayout(new GridLayout(1, 1));
 		mainFrame.addWindowListener(new WindowAdapter() {
@@ -51,7 +50,7 @@ public class DeleteAccountScreen {
 		mainFrame.setVisible(true);
 	}
 
-	private void prepareClientSelection() {
+	private void prepareWordSelection() {
 		cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -61,31 +60,26 @@ public class DeleteAccountScreen {
 			}
 		});
 
-		deleteButton = new JButton("Delete client");
-		deleteButton.addActionListener(new ActionListener() {
+		searchButton = new JButton("Search word");
+		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				if (!(accountIdTextField.getText().matches("[0-9]+") && accountIdTextField.getText().length() > 0)
-						|| (Integer.parseInt(accountIdTextField.getText())) < 0) {
-					JOptionPane.showMessageDialog(mainFrame, "Account id is not in the good format!");
-				} else if (!(clientIdTextField.getText().matches("[0-9]+") && clientIdTextField.getText().length() > 0)
-						|| (Integer.parseInt(clientIdTextField.getText())) < 0) {
-					JOptionPane.showMessageDialog(mainFrame, "User id is not in the good format!");
+
+				if (wordTextField.getText().length() <= 0 || wordTextField.getText().contains(" ")) {
+					JOptionPane.showMessageDialog(mainFrame, "Word is not in the good format!");
 				} else {
 					mainFrame.setVisible(false);
 					mainFrame.remove(controlPanel);
-					buttonEventHandler.accountDeleted(Integer.parseInt(accountIdTextField.getText()), Integer.parseInt(clientIdTextField.getText()));
+					buttonEventHandler.searchForWord(wordTextField.getText());
 				}
 			}
 		});
 
-		accountIdTextField = new JTextField("Enter account id");
-		clientIdTextField = new JTextField("Enter client id");
-		
-		controlPanel.add(clientIdTextField);
-		controlPanel.add(accountIdTextField);
-		controlPanel.add(cancelButton);
+		wordTextField = new JTextField("Enter the word you want to be searched");
 
-		controlPanel.add(deleteButton);
+		controlPanel.add(wordTextField);
+		controlPanel.add(cancelButton);
+		controlPanel.add(searchButton);
 	}
+
 }
+

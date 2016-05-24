@@ -1,4 +1,4 @@
-package ro.utcn.bank.gui;
+package ro.utcn.dictionary.gui;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -12,30 +12,29 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-
-public class DeleteClientScreen {
+public class DeleteWordScreen {
 	private JFrame mainFrame;
 	private JPanel controlPanel;
 
-	private JTextField clientIdTextField;
+	private JTextField wordTextField;
 
 	private JButton cancelButton;
 	private JButton deleteButton;
 
 	private AppInterfaceButtonEvents buttonEventHandler;
 
-	public DeleteClientScreen(AppInterfaceButtonEvents buttonEventsHandler) {
+	public DeleteWordScreen(AppInterfaceButtonEvents buttonEventsHandler) {
 		this.buttonEventHandler = buttonEventsHandler;
 
 	}
 
 	public void prepareComponents() {
 		prepareGUI();
-		prepareClientSelection();
+		prepareWordSelection();
 	}
 
 	private void prepareGUI() {
-		mainFrame = new JFrame("Delete client");
+		mainFrame = new JFrame("Delete word from dictionary");
 		mainFrame.setSize(500, 400);
 		mainFrame.setLayout(new GridLayout(1, 1));
 		mainFrame.addWindowListener(new WindowAdapter() {
@@ -51,7 +50,7 @@ public class DeleteClientScreen {
 		mainFrame.setVisible(true);
 	}
 
-	private void prepareClientSelection() {
+	private void prepareWordSelection() {
 		cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -61,24 +60,24 @@ public class DeleteClientScreen {
 			}
 		});
 
-		deleteButton = new JButton("Delete client");
+		deleteButton = new JButton("Delete word");
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
-				if (!(clientIdTextField.getText().matches("[0-9]+") && clientIdTextField.getText().length() > 0)
-						|| (Integer.parseInt(clientIdTextField.getText())) < 0) {
-					JOptionPane.showMessageDialog(mainFrame, "User id is not in the good format!");
+
+				if (wordTextField.getText().length() <= 0 || wordTextField.getText().contains(" ")) {
+					JOptionPane.showMessageDialog(mainFrame, "Word is not in the good format!");
 				} else {
 					mainFrame.setVisible(false);
 					mainFrame.remove(controlPanel);
-					buttonEventHandler.clientDeleted(Integer.parseInt(clientIdTextField.getText()));
+					buttonEventHandler.wordDeleted(wordTextField.getText());
+					
 				}
 			}
 		});
-		
-		clientIdTextField = new JTextField("Enter client id");
-		
-		controlPanel.add(clientIdTextField);
+
+		wordTextField = new JTextField("Enter word you want to be deleted");
+
+		controlPanel.add(wordTextField);
 		controlPanel.add(cancelButton);
 		controlPanel.add(deleteButton);
 	}

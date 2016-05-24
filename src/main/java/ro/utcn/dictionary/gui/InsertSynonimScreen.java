@@ -1,4 +1,4 @@
-package ro.utcn.bank.gui;
+package ro.utcn.dictionary.gui;
 
 
 
@@ -15,20 +15,19 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class CreateClientScreen {
+public class InsertSynonimScreen {
 	private JFrame mainFrame;
 	private JPanel controlPanel;
 	
-	private JTextField cnpTextField;
-	private JTextField nameTextField;
-	private JTextField ageTextField;
+	private JTextField wordTextField;
+	private JTextField synonimTextField;
 
 	private JButton cancelButton;
 	private JButton createButton;
 
 	private AppInterfaceButtonEvents buttonEventHandler;
 
-	public CreateClientScreen(AppInterfaceButtonEvents buttonEventsHandler) {
+	public InsertSynonimScreen(AppInterfaceButtonEvents buttonEventsHandler) {
 		this.buttonEventHandler = buttonEventsHandler;
 	
 	}
@@ -39,7 +38,7 @@ public class CreateClientScreen {
 	}
 
 	private void prepareGUI() {
-		mainFrame = new JFrame("Create new client");
+		mainFrame = new JFrame("Insert new synonim");
 		mainFrame.setSize(500, 400);
 		mainFrame.setLayout(new GridLayout(1, 1));
 		mainFrame.addWindowListener(new WindowAdapter() {
@@ -62,16 +61,15 @@ public class CreateClientScreen {
 	 */
 	private void placeElements() {
 
-		cnpTextField = new JTextField("CNP");
-		nameTextField = new JTextField("Name");
-		ageTextField = new JTextField("Age");
+		wordTextField = new JTextField("Word");
+		synonimTextField = new JTextField("Synonim");
 
 		cancelButton = new JButton("Cancel");
-		createButton = new JButton("Create client");
+		createButton = new JButton("Insert synonim");
 
-		controlPanel.add(cnpTextField);
-		controlPanel.add(nameTextField);
-		controlPanel.add(ageTextField);
+		controlPanel.add(wordTextField);
+		controlPanel.add(synonimTextField);
+
 		controlPanel.add(createButton);
 		controlPanel.add(cancelButton);
 
@@ -85,34 +83,26 @@ public class CreateClientScreen {
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int errorNumber = 0;
-				if (nameTextField.getText().length() == 0) {
-					errorNumber = 4;
+				if (wordTextField.getText().length() <= 0 || synonimTextField.getText().length() <= 0){
+					errorNumber = 1;
 				}
-				if (!(ageTextField.getText().matches("[0-9]+") && ageTextField.getText().length() > 0
-						|| (Integer.parseInt(ageTextField.getText())) < 0)
-						|| (Integer.parseInt(ageTextField.getText())) < 0) {
+				if (wordTextField.getText().contains(" ") || synonimTextField.getText().contains(" ") ){
 					errorNumber = 2;
 				}
-				if (!(cnpTextField.getText().matches("[0-9]+") && cnpTextField.getText().length() > 0)
-						|| (Integer.parseInt(cnpTextField.getText())) < 0) {
-					errorNumber = 3;
-				}
+				
+				
 				
 				if (errorNumber == 0) {
-					buttonEventHandler.newClientCreated(cnpTextField.getText(), nameTextField.getText(),
-							Integer.parseInt(ageTextField.getText()));
+					buttonEventHandler.newSynonimInserted(wordTextField.getText(), synonimTextField.getText());
 					mainFrame.setVisible(false);
 				} else {
 					String errorMessage;
 					switch (errorNumber) {
+					case 1:
+						errorMessage = "TextFields can't be empty!";
+						break;
 					case 2:
-						errorMessage = "CNP should be numeric and positive!";
-						break;
-					case 3:
-						errorMessage = "Age should be numeric and positive!";
-						break;
-					case 4:
-						errorMessage = "Name should not be blank!";
+						errorMessage = "No whitespaces are allowed in textFields!";
 						break;
 					default:
 						errorMessage = "Error";

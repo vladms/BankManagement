@@ -1,5 +1,4 @@
-package ro.utcn.bank.gui;
-
+package ro.utcn.dictionary.gui;
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -24,15 +23,11 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.MatteBorder;
 
-import ro.utcn.bank.model.Account;
-
-
-
 public class TableScreen {
 	private boolean isOrderScreenParent;
 	public JFrame mainFrame;
 	private JPanel controlPanel;
-	
+
 	private JTable table;
 
 	private JButton cancelButton;
@@ -52,7 +47,6 @@ public class TableScreen {
 
 	public void prepareComponents(ArrayList<?> list) {
 		this.list = list;
-		
 
 		this.prepareGUI();
 		this.prepareTable();
@@ -80,10 +74,6 @@ public class TableScreen {
 			ArrayList<Object> privateFields = new ArrayList<Object>();
 			Field[] allFields = list.get(0).getClass().getDeclaredFields();
 
-			if (list.get(0).getClass().getSuperclass() == Account.class){
-				allFields = list.get(0).getClass().getSuperclass().getDeclaredFields();
-
-			}
 			Object columnNames[] = new Object[allFields.length];
 			int index = 0;
 			for (Field field : allFields) {
@@ -96,6 +86,7 @@ public class TableScreen {
 					index++;
 				}
 			}
+
 			int size = list.size();
 
 			Object rowData[][] = new Object[size][256];
@@ -111,13 +102,28 @@ public class TableScreen {
 					} catch (IllegalAccessException e1) {
 						e1.printStackTrace();
 					}
-
 				}
+			}
 
+			if (list.get(0).getClass() == String.class) {
+				System.out.println("Here");
+				rowData = new Object[size][256];
+				for (index = 0; index < size; ++index) {
+					int k = 0;
+					try {
+						rowData[index][k] = list.get(index);
+						k++;
+					} catch (IllegalArgumentException e1) {
+						e1.printStackTrace();
+					}
+				}
+				index = 0;
+				columnNames = new Object[1];
+				columnNames[index] = "Value";
 			}
 
 			table = new JTable(rowData, columnNames);
-		
+
 			JScrollPane scrollPane = new JScrollPane();
 
 			scrollPane.setViewportView(table);
